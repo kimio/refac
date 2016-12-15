@@ -89,7 +89,7 @@ public class RulesObjectiveC extends Rules{
     
     //Kind of Errors
     private void pointerError(){
-        if(row.contains(" * ")){
+        if(row.contains("* ")){
             errors.put(keyPointer+rowNumber+1, row);
         }
     }
