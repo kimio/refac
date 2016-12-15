@@ -67,7 +67,7 @@ public class RulesObjectiveC extends Rules{
                 String valueString = matcher.group(1);
                 String replaceWithVar = "@\""+valueString+"\"";
                 String var = "_VAR"+rowNumber;
-                this.vars.put(var, "\nstatic NSString *const "+var+" = "+replaceWithVar+";");
+                this.vars.put(var, "\nstatic NSString * const "+var+" = "+replaceWithVar+";");
 
                 row = row.replaceAll(replaceWithVar, var);
                 
@@ -83,13 +83,14 @@ public class RulesObjectiveC extends Rules{
     }
     private void movePointerOn(){
         if(row.contains("*)")&&!row.contains(" *)")){
+            errors.put(keyPointer+rowNumber+1, row);
             row = row.replace("*)", " *)");
         }
     }
     
     //Kind of Errors
     private void pointerError(){
-        if(row.contains("* ")){
+        if(row.contains("* ")&&!row.contains(" * const")){
             errors.put(keyPointer+rowNumber+1, row);
         }
     }
