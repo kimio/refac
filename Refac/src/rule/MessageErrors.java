@@ -11,8 +11,13 @@ package rule;
  */
 public class MessageErrors {
     
-    //Objective-c
+    //General
     final public String keyPointer = "Pointer Error ";
     final public String keyMethodMaxLines = "Max Lines Error Method ";
+    final public String keyLookHere = "Look Here ";
     final public String lines = " lines ";
+    
+    //Objective-c
+    final public String keyCanBeBetter = " can be Better?";
+    final public String keyCreateNewConstNSString = " create new Const NSString?";
 }

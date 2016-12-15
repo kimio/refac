@@ -53,16 +53,25 @@ public class RulesObjectiveC extends Rules{
     private void verifyString(){
         if(row.contains("@\"")&&!row.contains("NSLocalizedString")&&!row.contains("static NSString")&&!row.contains("@\"\"")){
             
-            Pattern pattern = Pattern.compile("@\"(.+?)\"");
-            Matcher matcher = pattern.matcher(row);
-            matcher.find();
+            if(row.contains(":")&&!row.contains("[")){
+                //Maybe this is a NSDictionary...
+                errors.put(keyLookHere+(rowNumber+1)+keyCanBeBetter,row.trim());
+            }else{
+                //Maybe is not a good idea to replace string
+                errors.put(keyLookHere+(rowNumber+1)+keyCreateNewConstNSString,row.trim());
+                
+                Pattern pattern = Pattern.compile("@\"(.+?)\"");
+                Matcher matcher = pattern.matcher(row);
+                matcher.find();
 
-            String valueString = matcher.group(1);
-            String replaceWithVar = "@\""+valueString+"\"";
-            String var = "_VAR"+rowNumber;
-            this.vars.put(var, "\nstatic NSString *const "+var+" = "+replaceWithVar+";");
-            
-            row = row.replaceAll(replaceWithVar, var);
+                String valueString = matcher.group(1);
+                String replaceWithVar = "@\""+valueString+"\"";
+                String var = "_VAR"+rowNumber;
+                this.vars.put(var, "\nstatic NSString *const "+var+" = "+replaceWithVar+";");
+
+                row = row.replaceAll(replaceWithVar, var);
+                
+            }
         }else if(row.contains("@\"\"")&&!row.contains("NSLocalizedString")&&!row.contains("static NSString")){
             row = row.replace("@\"\"", "[NSString string]");
         }
