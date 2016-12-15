@@ -9,20 +9,22 @@
 
 <AnchorPane id="AnchorPane" prefHeight="568.0" prefWidth="491.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="refac.FXMLDocumentController">
     <children>
-      <TabPane cacheShape="false" centerShape="false" prefHeight="637.0" prefWidth="999.0" scaleShape="false" tabClosingPolicy="UNAVAILABLE">
+      <TabPane cacheShape="false" centerShape="false" prefHeight="658.0" prefWidth="999.0" scaleShape="false" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab text="Home">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="613.0" prefWidth="999.0">
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="615.0" prefWidth="999.0">
                      <children>
                         <Label layoutX="29.0" layoutY="26.0" prefHeight="17.0" prefWidth="640.0" text="Select your file to Refactore" />
-                        <TextField fx:id="file" editable="false" layoutX="29.0" layoutY="47.0" prefHeight="35.0" prefWidth="217.0" />
-                          <Button fx:id="button_open_file" layoutX="246.0" layoutY="47.0" onAction="#importFile" prefHeight="35.0" prefWidth="243.0" text="file" />
+                        <TextField fx:id="file" editable="false" layoutX="29.0" layoutY="47.0" prefHeight="35.0" prefWidth="207.0" />
+                          <Button fx:id="button_open_file" layoutX="236.0" layoutY="47.0" onAction="#importFile" prefHeight="35.0" prefWidth="243.0" text="file" />
                         <Button fx:id="button_open" layoutX="518.0" layoutY="47.0" mnemonicParsing="false" onAction="#refactorFile" prefHeight="35.0" prefWidth="451.0" text="refactore" />
-                        <TextArea fx:id="file_refactored" layoutX="518.0" layoutY="132.0" prefHeight="442.0" prefWidth="450.0" />
-                        <TextArea fx:id="before_refactor" layoutX="32.0" layoutY="131.0" prefHeight="443.0" prefWidth="456.0" />
+                        <TextArea fx:id="file_refactored" layoutX="518.0" layoutY="132.0" prefHeight="283.0" prefWidth="450.0" />
+                        <TextArea fx:id="before_refactor" layoutX="32.0" layoutY="131.0" prefHeight="283.0" prefWidth="450.0" />
                         <Label layoutX="35.0" layoutY="103.0" prefHeight="17.0" prefWidth="101.0" text="Before" />
                         <Label layoutX="518.0" layoutY="103.0" prefHeight="17.0" prefWidth="101.0" text="After" />
+                        <TextArea fx:id="log" layoutX="32.0" layoutY="472.0" prefHeight="128.0" prefWidth="935.0" />
+                        <Label layoutX="35.0" layoutY="441.0" prefHeight="17.0" prefWidth="101.0" text="Code Review" />
                      </children>
                   </AnchorPane>
             </content>

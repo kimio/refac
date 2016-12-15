@@ -30,6 +30,9 @@ public class FXMLDocumentController implements Initializable {
     public TextArea before_refactor;
     
     @FXML
+    public TextArea log;
+    
+    @FXML
     public Label about;
     
     @Override
@@ -70,6 +73,7 @@ public class FXMLDocumentController implements Initializable {
             i++;
         }
         file_refactored.setText(rules.getNewStringVarsWithImplementation());
+        log.setText(rules.getLogErrors());
     }
     
     //not remove :(

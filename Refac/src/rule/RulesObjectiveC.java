@@ -5,7 +5,6 @@
  */
 package rule;
 
-import java.util.HashMap;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -14,27 +13,21 @@ import java.util.regex.Pattern;
  *
  * @author felipekn
  */
-public class RulesObjectiveC {
-    private String row;
-    private int rowNumber;
-    private final HashMap<String,String> vars;
+public class RulesObjectiveC extends Rules{
     private int positionEndRowImplementation = 0;
-    private StringBuilder code = new StringBuilder();
+    private int methodLineStart = 0;
+    private String methodTextStart = "";
     
     public RulesObjectiveC(){
-        this.vars = new HashMap<>();
+        super();
     }
-    public void setRow(String row,int rowNumber){
-        this.row = row;
-        this.rowNumber = rowNumber;
-        verify();
-    }
-    private void verify(){
+    @Override
+    public void verify(){
         currentImplementationRow();
         verifyString();
         spaceBetweenMethodSignature();
         movePointerOn();
-        StringBuilder append = code.append(row).append("\n");
+        code.append(row).append("\n");
     }
     public String getNewStringVarsWithImplementation(){
         StringBuilder varsBuilder = new StringBuilder();
@@ -70,6 +63,8 @@ public class RulesObjectiveC {
             this.vars.put(var, "\nstatic NSString *const "+var+" = "+replaceWithVar+";");
             
             row = row.replaceAll(replaceWithVar, var);
+        }else if(row.contains("@\"\"")&&!row.contains("NSLocalizedString")&&!row.contains("static NSString")){
+            row = row.replace("@\"\"", "[NSString string]");
         }
     }
     private void spaceBetweenMethodSignature(){
@@ -82,4 +77,35 @@ public class RulesObjectiveC {
             row = row.replace("*)", " *)");
         }
     }
+    
+    //Kind of Errors
+    private void pointerError(){
+        if(row.contains(" * ")){
+            errors.put(keyPointer+rowNumber+1, row);
+        }
+    }
+    
+    private void methodMaxRows(){
+        if(row.length()>0){
+            if(row.substring(0,1).equals("-")){
+                methodLineStart = rowNumber;
+                methodTextStart = row;
+            }
+            else if(methodLineStart>0&&row.substring(0,1).equals("}")){
+                //30 method lines and 2 header and footer lines 
+                if((rowNumber-methodLineStart)>32){
+                    errors.put(keyMethodMaxLines+(methodLineStart+1)+lines+(rowNumber-methodLineStart-2), methodTextStart);
+                }
+                methodLineStart = 0;
+            }
+        }
+    }
+    
+    //Log Error
+    @Override
+    public void setError() {
+        pointerError();
+        methodMaxRows();
+    }
+    
 }
